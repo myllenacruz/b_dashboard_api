@@ -16,7 +16,7 @@ app.use(cors({ origin: "*", optionsSuccessStatus: 200 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/", routes);
+app.use("/api", routes);
 
 const PORT = process.env.PORT;
 app.listen(PORT, console.info(`       - Server in running on port ${PORT} -`));
