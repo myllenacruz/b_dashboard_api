@@ -1,6 +1,21 @@
 const Sequelize = require("sequelize");
 const dbConfig = require("./config");
 
-const connection = new Sequelize(dbConfig);
+const config = new Sequelize(dbConfig);
 
-module.exports = connection;
+const { initUserRole } = require("./models/userRole");
+const { initUser } = require("./models/user");
+
+const db = {
+	db: config,
+
+	UserRole: initUserRole(config),
+	User: initUser(config)
+};
+
+Object.keys(db).forEach(modelName => {
+	if ("associate" in db[modelName])
+		db[modelName].associate(db);
+});
+
+module.exports = db;
