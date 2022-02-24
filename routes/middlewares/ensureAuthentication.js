@@ -7,7 +7,7 @@ const auth = require("../../config/auth");
  * @param {import("express").Response} res
  * @param {import("express").NextFunction} next
  */
-export default async function ensureAuthentication (req, res, next) {
+async function ensureAuthentication (req, res, next) {
 	const authHeader = req.headers.authorization;
 	if (!authHeader) throw new AppError("Unauthorized. User session is invalid.", 401);
 
@@ -30,3 +30,5 @@ export default async function ensureAuthentication (req, res, next) {
 
 	next();
 }
+
+module.exports = { ensureAuthentication };

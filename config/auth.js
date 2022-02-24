@@ -1,4 +1,4 @@
-export default {
+module.exports = {
 	jwt: {
 		secret: "default",
 		expiresIn: 12 * 60 * 60, //12hrs
