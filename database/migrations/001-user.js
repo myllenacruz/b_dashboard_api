@@ -1,3 +1,5 @@
+const { UserRole } = require("..");
+
 module.exports = {
 	/**
 	* @param {import("sequelize").QueryInterface} queryInterface
@@ -35,7 +37,7 @@ module.exports = {
 			id_user_role: {
 				type: Sequelize.INTEGER,
 				allowNull: false,
-				references: { model: "user_role", key: "id" }
+				references: { model: UserRole, key: "id" }
 			},
 
 			deleted: {

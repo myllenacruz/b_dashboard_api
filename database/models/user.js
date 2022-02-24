@@ -5,7 +5,7 @@ class User extends Model {
 	* @param {import("../index")} models
 	*/
 	static associate (models) {
-		User.belongsTo(models.UserRole, { as: "user_role", foreignKey: "id_user_role "});
+		User.belongsTo(models.UserRole, { as: "user_role", foreignKey: "id_user_role" });
 	}
 }
 
