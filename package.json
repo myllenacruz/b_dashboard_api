@@ -7,6 +7,7 @@
     "start": "nodemon app.js",
     "db_create": "sequelize db:create",
     "db_drop": "sequelize db:drop",
+	"db_migrate": "sequelize db:migrate",
     "db_undo_seeds": "sequelize db:seed:undo:all --seeders-path"
   },
   "keywords": [],
