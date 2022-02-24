@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
-const dbConfig = require("./config");
+const dbConfig = require("./config.json");
 
-const config = new Sequelize(dbConfig);
+const config = new Sequelize(dbConfig.development);
 
 const { initUserRole } = require("./models/userRole");
 const { initUser } = require("./models/user");
