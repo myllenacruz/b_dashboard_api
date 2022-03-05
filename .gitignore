@@ -42,3 +42,4 @@ typings
 .node-version
 
 !.gitkeep
+.env

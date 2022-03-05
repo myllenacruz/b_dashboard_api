@@ -1,6 +1,6 @@
 const { validationResult } = require("express-validator");
 
-export default function isRequestInvalid (req, res) {
+function isRequestInvalid (req, res) {
 	const validation = validationResult(req);
 	if (validation.isEmpty())
 		return false;
@@ -8,3 +8,5 @@ export default function isRequestInvalid (req, res) {
 	res.status(400).json({ message: validation.array()[0].msg, errors: validation.array() });
 	return true;
 }
+
+module.exports = { isRequestInvalid };
