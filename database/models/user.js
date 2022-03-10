@@ -1,5 +1,7 @@
 const { Model, DataTypes } = require("sequelize");
 
+const bcrypt = require("bcrypt");
+
 class User extends Model {
 	/**
 	* @param {import("../index")} models
@@ -40,7 +42,20 @@ function initUser (sequelize) {
 		timestamps: false,
 		modelName: "User",
 		tableName: "user",
-		underscored: true
+		underscored: true,
+		hooks : {
+			beforeCreate: (user, options) => {
+				{
+					user.password = user.password && user.password != "" ? bcrypt.hashSync(user.password, 11) : "";
+				}
+			},
+
+			beforeUpdate: (user, options) => {
+				{
+					user.password = user.password && user.password != "" ? bcrypt.hashSync(user.password, 11) : "";
+				}
+			}
+		}
 	});
 
 	return User;

@@ -1,16 +1,16 @@
 const Sequelize = require("sequelize");
 const dbConfig = require("./config.json");
 
-const config = new Sequelize(dbConfig.development);
+const sequelize = new Sequelize(dbConfig.development);
 
 const { initUserRole } = require("./models/userRole");
 const { initUser } = require("./models/user");
 
 const db = {
-	db: config,
+	db: sequelize,
 
-	UserRole: initUserRole(config),
-	User: initUser(config)
+	UserRole: initUserRole(sequelize),
+	User: initUser(sequelize)
 };
 
 Object.keys(db).forEach(modelName => {
