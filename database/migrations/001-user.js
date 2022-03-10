@@ -1,4 +1,3 @@
-const { UserRole } = require("..");
 
 module.exports = {
 	/**
@@ -37,7 +36,7 @@ module.exports = {
 			id_user_role: {
 				type: Sequelize.INTEGER,
 				allowNull: false,
-				references: { model: UserRole, key: "id" }
+				references: { model: "user_role", key: "id" }
 			},
 
 			deleted: {
@@ -46,17 +45,14 @@ module.exports = {
 				defaultValue: false
 			}
 		});
+	},
 
-		await queryInterface.bulkInsert("user", [
-			{
-				user: "admin", name: "Bimo", email: "admin@admin.com", password: "admin", id_user_role: 1
-			},
-			{
-				user: "comum", name: "Bimo Comum", email: "comum@comum.com", password: "comum", id_user_role: 2
-			},
-			{
-				user: "regular", name: "Bimo Regular", email: "regular@regular.com", password: "comum", id_user_role: 3
-			}
-		]);
+	/**
+	 * Função que desfaz a migração
+	 * @param {import("sequelize").QueryInterface} queryInterface
+	 * @param {import("sequelize").Sequelize} Sequelize
+	 */
+	 down: async (queryInterface, Sequelize) => {
+		await queryInterface.dropTable("user");
 	}
 };
