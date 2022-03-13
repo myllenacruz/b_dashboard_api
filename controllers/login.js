@@ -29,26 +29,29 @@ async function login (req, res) {
 
 	try {
 		const regUser = await db.User.findOne({
-			attributes: ["id", "name", "email", "password", "id_user_role"],
-			where: { name: user, password: pass }
+			attributes: ["id", "name", "email", "password", "id_user_group"],
+			where: { name: user }
 		});
 
 		if (!regUser)
 			res.status(401).json({ message: "Invalid user. Try again! "});
 
-		const userRole = (await db.UserRole.findAll({ where: { id: regUser.id_user_role }})).map(n => n.name);
+		const permitions = (await db.UserRole.findAll({
+			attributes: ["id_group", "code"],
+			where: { id_group: regUser.id_user_group }
+		})).map(d => d.code);
 
 		const token = jwt.sign({
 			user_id: regUser.id,
 			userName: regUser.name,
-			userRole
+			id_user_group: regUser.id_user_group
 		}, jwtConf.jwt.secret, { expiresIn: "10h" });
 
 		const loginReturn = {
 			token,
 			userName: regUser.name,
 			userId: regUser.id,
-			userRole
+			userGroup: permitions
 		};
 
 		const tokenCreated = Date.now();
@@ -59,7 +62,7 @@ async function login (req, res) {
 
 		res.status(200).json(loginReturn);
 	} catch (err) {
-		console.info("ERROR :", err);
+		console.info("ERROR: ", err);
 		res.status(500).json({
 			message: "Could not get user query!",
 			error: err.message
@@ -97,7 +100,49 @@ login.genValidations = [
 	body("password").notEmpty().isLength({ min: 4 }).withMessage("Invalid password. Try again!")
 ];
 
-//TODO: Verificar se o usuário possui permissão.
+function hasPermissions (...permissions) {
+	return async function (req, res, next) {
+		ensureAuthorized(req, res, async (_, user) => {
+			try {
+				let allPossiblePermissions = [];
+
+				for (const permission of permissions) {
+					if (typeof permission == "string")
+						allPossiblePermissions.push(permission);
+					else
+						allPossiblePermissions = allPossiblePermissions.concat(permission);
+				}
+
+				const features = (await db.UserRole.findAll({
+					attributes: ["id_group", "code"],
+					where: { code: allPossiblePermissions, id_group: user.id_user_group }
+				}));
+
+				for (const permission of permissions) {
+					const feature = features.find((f) => {
+						if (typeof permission === "string") {
+							return f.code === permission;
+						}
+
+						return permission.indexOf(f.code) !== -1;
+					});
+
+					if (!feature) {
+						res.status(401).json({ message: "Unauthorized. The user does not have the required level of access." });
+						return res.end();
+					}
+				}
+
+				next();
+			} catch (err) {
+				console.info(err);
+
+				res.status(500).json({ message: "Unauthorized!" });
+			}
+
+		});
+	};
+}
 
 /**
  * @param {import("express").Request} req
@@ -112,4 +157,4 @@ async function logout (req, res) {
 	res.end();
 }
 
-module.exports = { ensureAuthorized, login, logout };
+module.exports = { ensureAuthorized, login, logout, hasPermissions };

@@ -33,10 +33,11 @@ module.exports = {
 				allowNull: false
 			},
 
-			id_user_role: {
+			id_user_group: {
 				type: Sequelize.INTEGER,
 				allowNull: false,
-				references: { model: "user_role", key: "id" }
+				references: { model: "user_group", key: "id" },
+				defaultValue: 1
 			},
 
 			deleted: {

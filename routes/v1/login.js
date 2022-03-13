@@ -4,10 +4,12 @@ const { login, logout, ensureAuthorized } = require("../../controllers/login");
 
 const router = Router();
 
-router.post("/login", login.genValidations, login);
+router.post("/login", login.genValidations, login, ensureAuthorized);
+
+router.get("/validateSession", async (req, res) => {
+	res.status(200).json({ valid: true });
+});
 
 router.get("/logout", logout);
-
-//TODO: Add rota para validar sessão do usuário.
 
 module.exports = router;

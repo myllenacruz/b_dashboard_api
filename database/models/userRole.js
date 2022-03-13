@@ -5,7 +5,7 @@ class UserRole extends Model {
 	* @param {import("../index")} models
 	*/
 	static associate (models) {
-		UserRole.hasMany(models.User, { as: "user", foreignKey: "id_user_role" });
+		UserRole.belongsTo(models.UserGroup, { as: "group", foreignKey: "id_group "});
 	}
 }
 
@@ -20,8 +20,29 @@ function initUserRole (sequelize) {
 			autoIncrement: true
 		},
 
+		id_group: {
+			type: DataTypes.INTEGER,
+			allowNull: false,
+			references: {
+				model: sequelize.models.UserGroup,
+				key: "id"
+			},
+			defaultValue: 1
+		},
+
 		name: DataTypes.STRING(40),
-		deleted: DataTypes.BOOLEAN
+
+		module: {
+			type: DataTypes.ENUM("COMUM", "ALL", "REGULAR", "ADMINISTRATOR"),
+			allowNull: false
+		},
+
+		code: {
+			type: DataTypes.STRING(50),
+			allowNull: false,
+			unique: true
+		}
+
 	},
 	{
 		sequelize,
