@@ -1,13 +1,11 @@
 const { Model, DataTypes } = require("sequelize");
 
-const bcrypt = require("bcrypt");
-
 class User extends Model {
 	/**
 	* @param {import("../index")} models
 	*/
 	static associate (models) {
-		User.belongsTo(models.UserRole, { as: "user_role", foreignKey: "id_user_role" });
+		User.belongsTo(models.UserGroup, { as: "user_group", foreignKey: "id_user_group" });
 	}
 }
 
@@ -27,12 +25,13 @@ function initUser (sequelize) {
 		email: DataTypes.STRING(100),
 		password: DataTypes.STRING(100),
 
-		id_user_role: {
+		id_user_group: {
 			type: DataTypes.INTEGER,
 			references: {
-				model: sequelize.models.UserRole,
+				model: sequelize.models.UserGroup,
 				key: "id"
-			}
+			},
+			defaultValue: 1
 		},
 
 		deleted: DataTypes.BOOLEAN
@@ -42,20 +41,7 @@ function initUser (sequelize) {
 		timestamps: false,
 		modelName: "User",
 		tableName: "user",
-		underscored: true,
-		hooks : {
-			beforeCreate: (user, options) => {
-				{
-					user.password = user.password && user.password != "" ? bcrypt.hashSync(user.password, 11) : "";
-				}
-			},
-
-			beforeUpdate: (user, options) => {
-				{
-					user.password = user.password && user.password != "" ? bcrypt.hashSync(user.password, 11) : "";
-				}
-			}
-		}
+		underscored: true
 	});
 
 	return User;
