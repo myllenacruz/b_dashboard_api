@@ -1,14 +1,6 @@
 const models = require("../database/");
 const bcrypt = require("bcrypt");
 
-/**
- * @param {import("express").Request} req
- * @param {import("express").Response} res
- */
-async function getAllUsers (req, res) {
-	res.status(200).json({ message: "USUARIOS" });
-}
-
 async function createUsers (req, res) {
 	const user = req.body.user;
 	const userName = req.body.name;
@@ -28,9 +20,9 @@ async function createUsers (req, res) {
 
 		return res.status(201).json({ message: "User create with succes!" });
 	} catch (err) {
-		console.log(err);
+		console.error(err);
 
-		return res.status(406).json({ message: "Something is wrong!" });
+		return res.status(406).json({ message: "Could not create user!" });
 	}
 
 }
@@ -41,9 +33,9 @@ async function deleteUsers (req, res) {
 
 		return res.status(200).json({ message: "User deleted!" });
 	} catch (err) {
-		console.info("ERROR: ", err);
+		console.error("ERROR: ", err);
 
-		res.status(500).json({ message: "Something is wrong." });
+		res.status(500).json({ message: "Could not delete user!" });
 	}
 }
-module.exports = { getAllUsers, createUsers, deleteUsers };
+module.exports = { createUsers, deleteUsers };

@@ -25,7 +25,6 @@ function getToken (req) {
 async function login (req, res) {
 	if (isRequestInvalid(req, res)) return;
 	const user = req.body.name;
-	const pass = req.body.password;
 
 	try {
 		const regUser = await db.User.findOne({
