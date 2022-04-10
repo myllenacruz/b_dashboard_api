@@ -3,9 +3,9 @@ const dbConfig = require("./config.json");
 
 const sequelize = new Sequelize(dbConfig.development);
 
-const { initUserRole } = require("./models/userRole");
-const { initUser } = require("./models/user");
-const { initUserGroup } = require("./models/userGroup");
+const { initUserRole } = require("./models/USER/userRole");
+const { initUser } = require("./models/USER/user");
+const { initUserGroup } = require("./models/USER/userGroup");
 
 const db = {
 	db: sequelize,
