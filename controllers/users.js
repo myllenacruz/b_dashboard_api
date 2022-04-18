@@ -7,10 +7,10 @@ async function createUsers (req, res) {
 	const userMail = req.body.email;
 	const pass = req.body.password;
 
-	const salt = await bcrypt.genSalt(11);
-	const hashPass = await bcrypt.hashSync(pass, salt);
-
 	try {
+		const salt = await bcrypt.genSalt(11);
+		const hashPass = await bcrypt.hashSync(pass, salt);
+
 		await models.User.create({
 			user,
 			name: userName,

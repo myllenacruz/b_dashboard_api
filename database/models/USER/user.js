@@ -2,7 +2,7 @@ const { Model, DataTypes } = require("sequelize");
 
 class User extends Model {
 	/**
-	* @param {import("../index")} models
+	* @param {import("../../index")} models
 	*/
 	static associate (models) {
 		User.belongsTo(models.UserGroup, { as: "user_group", foreignKey: "id_user_group" });

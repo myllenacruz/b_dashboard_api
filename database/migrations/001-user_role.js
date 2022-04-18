@@ -21,8 +21,7 @@ module.exports = {
 
 			name: {
 				type: Sequelize.STRING(40),
-				allowNull: false,
-				unique: true
+				allowNull: false
 			},
 
 			module: {
@@ -32,8 +31,7 @@ module.exports = {
 
 			code: {
 				type: Sequelize.STRING(50),
-				allowNull: false,
-				unique: true
+				allowNull: false
 			}
 		});
 
@@ -41,8 +39,12 @@ module.exports = {
 			{ id: 1, 	name: "Delete Users", 		module: "ADMINISTRATOR",	code: "SYS_D_USERS", id_group: 2 },
 			{ id: 2, 	name: "Register Users", 	module: "ADMINISTRATOR", 	code: "SYS_R_USERS", id_group: 2 },
 			{ id: 3,	name: "Edit Users", 		module: "ADMINISTRATOR", 	code: "SYS_E_USERS", id_group: 2 },
-			{ id: 4,	name: "Create Post", 		module: "REGULAR", 			code: "SYS_C_POSTS", id_group: 3 },
-			{ id: 5,	name: "Edit Post", 			module: "REGULAR", 			code: "SYS_E_POSTS", id_group: 3 }
+			{ id: 4,	name: "Create Post", 		module: "ADMINISTRATOR", 	code: "SYS_C_POSTS", id_group: 2 },
+			{ id: 5,	name: "Edit Post", 			module: "ADMINISTRATOR", 	code: "SYS_E_POSTS", id_group: 2 },
+			{ id: 6,	name: "Delete Post", 		module: "ADMINISTRATOR", 	code: "SYS_D_POSTS", id_group: 2 },
+			{ id: 7,	name: "Create Post", 		module: "REGULAR", 			code: "SYS_C_POSTS", id_group: 3 },
+			{ id: 8,	name: "Edit Post", 			module: "REGULAR", 			code: "SYS_E_POSTS", id_group: 3 },
+			{ id: 9,	name: "Delete Post", 		module: "REGULAR", 			code: "SYS_D_POSTS", id_group: 3 }
 		]);
 	},
 
